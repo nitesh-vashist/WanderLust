@@ -69,6 +69,7 @@
     <!-- Listing Info -->
     <div class="col-md-6">
       <h2 class="mb-3"><%= listing.title %></h2>
+      <p class="text-muted">Owned by <%=listing.owner.username %></p>
       <p class="text-muted"><%= listing.description %></p>
       <ul class="list-group list-group-flush mb-3">
         <li class="list-group-item"><strong>Price:</strong> ₹<%= listing.price.toLocaleString("en-IN") %></li>
@@ -76,6 +77,7 @@
         <li class="list-group-item"><strong>Country:</strong> <%= listing.country %></li>
       </ul>
 
+      <% if(currUser && listing.owner._id.equals(currUser._id)){ %>
       <div class="d-flex gap-2">
         <form action="/listings/<%= listing._id %>/edit" method="get">
           <button class="btn btn-outline-primary">Edit Listing</button>
@@ -84,19 +86,39 @@
           <button class="btn btn-outline-danger">Delete Listing</button>
         </form>
       </div>
+      <% } %>
     </div>
   </div>
 
-  <hr class="my-5">
+  
 
+  <% if(currUser){ %>
+    <hr class="my-5">
   <!-- Review Form -->
   <div class="row">
     <div class="col-md-8">
       <h4 class="mb-3">Leave a Review</h4>
       <form action="/listings/<%= listing._id %>/review" method="post" class="needs-validation">
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label for="rating" class="form-label">Rating</label>
           <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
+        </div> -->
+        <div class="mb-3">
+        <label for="rating" class="form-label">Rating</label>
+        <fieldset class="starability-slot">
+        
+        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+        <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+        <label for="first-rate1" title="Terrible">1 star</label>
+        <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+        <label for="first-rate2" title="Not good">2 stars</label>
+        <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+        <label for="first-rate3" title="Average">3 stars</label>
+        <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+        <label for="first-rate4" title="Very good">4 stars</label>
+        <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+        <label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>
         </div>
         <div class="mb-3">
           <label for="comment" class="form-label">Comment</label>
@@ -106,7 +128,7 @@
       </form>
     </div>
   </div>
-
+<% } %>
   <hr class="my-5">
 
   <!-- Reviews Section -->
@@ -120,8 +142,13 @@
         <% for (review of listing.reviews) { %>
           <li class="list-group-item d-flex justify-content-between align-items-start">
             <div>
-              <p class="mb-1"><strong>Rating:</strong> <%= review.rating %> ⭐</p>
+              <!-- <p class="mb-1"><strong>Rating:</strong> <%= review.rating %> ⭐</p> -->
+                
+              <p class="starability-result" data-rating= <%= review.rating %>>
+                Rated: 3 stars
+              </p>
               <p class="mb-1"><%= review.comment %></p>
+              <p class="mb-1 text-end text-muted fst-italic author-credit">-@<%=review.author.username %></p>
             </div>
             <form action="/listings/<%= listing._id %>/review/<%= review._id %>?_method=DELETE" method="post">
               <button class="btn btn-sm btn-outline-danger">Delete</button>
