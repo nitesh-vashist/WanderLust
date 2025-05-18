@@ -55,11 +55,105 @@
     background-color: rgba(255, 255, 255, 0.9);
     font-weight: 500;
   }
+
+  
+  .filters {
+      display: flex;
+      flex: wrap;
+      align-items: center;
+    }
+
+    .filter {
+      text-align: center;
+      margin-top: 1rem;
+      margin-right: 1.3rem;
+      transition: all 0.1s ease;
+      opacity: 0.6;
+      transform: scale(1);
+    }
+
+    .filter:hover {
+      opacity: 1;
+      transform: scale(1.15);
+      cursor: pointer;
+    }
+
+  .tax-box {
+  margin-left: 7rem;
+  padding: 0.75rem !important;
+  border: 1.25px solid rgba(0, 0, 0, 0.211);
+  border-radius: 2rem;
+  width: 11rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.bold-text {
+  font-weight: bolder;
+}
+
+.tax-info{
+  display: none;
+}
+
 </style>
 
-<div class="container my-5">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">All Listings</h2>
+<div class="container ">
+  <div class="d-flex justify-content-between align-items-center mb-4 ">
+          <div class="filters">
+          <div class="filter">
+            <i class="fa-solid fa-fire-flame-curved"></i>
+            <p>Trending</p>
+          </div>
+          <div class="filter">
+            <i class="fa-solid fa-bed"></i>
+            <p>Rooms</p>
+          </div>
+          <div class="filter">
+            <i class="fa-solid fa-mountain-city"></i>
+            <p>Iconic Cities</p>
+          </div>
+          <div class="filter">
+            <i class="fa-solid fa-mountain-sun"></i>
+            <p>Mountains</p>
+          </div>
+          <div class="filter">
+            <i class="fa-solid fa-person-swimming"></i>
+            <p>Amazing Pools</p>
+          </div>
+          <div class="filter">
+            <i class="fa-solid fa-cow"></i>
+            <p>Farms</p>
+          </div>
+          <div class="filter">
+            <i class="fa-solid fa-dragon"></i>
+            <p>Themes</p>
+          </div>
+          <div class="filter">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <p>Premium</p>
+          </div>
+          <div class="filter">
+            <i class="fa-solid fa-snowflake"></i>
+            <p>Snow</p>
+          </div>
+          <div class="filter">
+            <i class="fa-solid fa-tents"></i>
+            <p>Tents</p>
+          </div>
+          <div class="filter">
+            <i class="fa-solid fa-volleyball"></i>
+            <p>Sports</p>
+          </div>
+          <div>
+            <div class="form-check form-switch tax-box">
+              <label class="form-check-label tax-text" for="switchCheckDefault">Display Taxes</label>
+              <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+            </div>
+          </div>
+        </div>
     
   </div>
 
@@ -72,6 +166,7 @@
               <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>">
               <div class="position-absolute top-0 end-0 px-2 py-1 m-2 rounded-pill price-badge">
                 ₹<%= listing.price.toLocaleString("en-IN") %>/night
+                <i class="tax-info">&nbsp; + &#8377;<%=listing.price*0.18%>&nbsp;&nbsp;&nbsp; (18% GST)</i>
               </div>
             </div>
             <div class="card-body">
@@ -85,3 +180,19 @@
   </div>
 </div>
 
+<script>
+    let taxSwitch = document.getElementById("switchCheckDefault");
+    taxSwitch.addEventListener("click", () => {
+      let taxInfo = document.getElementsByClassName("tax-info");
+      for (info of taxInfo) {
+        if (info.style.display != "inline") {
+          info.style.display = "inline"
+        } else {
+          info.style.display = "none";
+        }
+      }
+    })
+
+
+
+  </script>

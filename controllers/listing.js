@@ -1,3 +1,5 @@
+require("dotenv").config({ path: "../.env" }); 
+
 const Listing = require("../models/listing");
 
 module.exports.index = async (req,res)=>{
@@ -17,7 +19,7 @@ module.exports.showListing =async(req,res)=>{
         req.flash("error","Listing you requested for , do not exists!");
         res.redirect("/listings");
     };
-    res.render("listings/oneListing.ejs",{listing});
+    res.render("listings/oneListing.ejs",{listing,razorpayKey: process.env.RAZORPAY_KEY_ID });
 };
 
 module.exports.createListing = async(req,res,next)=>{
