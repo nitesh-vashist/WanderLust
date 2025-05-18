@@ -25,7 +25,7 @@ router.get("/:id",listingController.showListing);
 router.post("/new",isLoggedIn,upload.single("listing[image]"),listingController.createListing);
 
 //Update route
-router.put("/:id/edit",isLoggedIn,isOwner,listingController.updateListing);
+router.put("/:id/edit",isLoggedIn,isOwner,upload.single("listing[image]"),listingController.updateListing);
 
 //Delete Route
 router.delete("/:id",isLoggedIn,isOwner,listingController.deleteListing);
